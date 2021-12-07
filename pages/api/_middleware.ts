@@ -24,23 +24,16 @@ Crypto.timingSafeEqual = function timingSafeEqual(a, b) {
 };
 
 const handler = async (req: NextRequest) => {
-  // Let's get the cookie from the request
   const ironSessionCookie = req.cookies["iron-session/examples/next.js"];
+
+  // TODO: Check if request needs auth, if not, pass through, else return a redirect.
   if (!ironSessionCookie) {
     console.log("No cookie found!");
     return NextResponse.next();
   }
 
-  // We unseal the cookie to access its data
   const sessionData = await unsealData(ironSessionCookie, sessionOptions);
-  // The rest is unreachable, see errors below:
 
-  // wait  - compiling /api/user (server only)...
-  // warn  - ./node_modules/events/events.js
-  // `eval` not allowed in Middleware pages/api/_middleware
-  // ./node_modules/readable-stream/lib/_stream_writable.js
-
-  // Try to print the unsealed cookie data.
   console.log(sessionData);
 
   return NextResponse.next();
