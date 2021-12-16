@@ -26,12 +26,12 @@ Crypto.timingSafeEqual = function timingSafeEqual(a, b) {
 const handler = async (req: NextRequest) => {
   const ironSessionCookie = req.cookies["iron-session/examples/next.js"];
 
-  // TODO: Check if request needs auth, if not, pass through, else return a redirect.
   if (!ironSessionCookie) {
     console.log("No cookie found!");
     return NextResponse.next();
   }
 
+  // Session data now returns {} without errors or warnings, correct and incorrect passwords both return {}.
   const sessionData = await unsealData(ironSessionCookie, sessionOptions);
 
   console.log(sessionData);
